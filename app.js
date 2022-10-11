@@ -1,9 +1,9 @@
-require("dotenv").config()
-const express = require('express')
-const path = require('node:path')
-const bodyParser = require('body-parser')
-const app = express()
+const express = require('express');
+const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
+const { urlencoded } = require('body-parser');
 const MongoClient = require('mongodb').MongoClient
+const app = express();
 const { ObjectId } = require('mongodb');
 
 dotenv.config({path:'config.env'});
