@@ -1,32 +1,43 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const bodyParser = require('body-parser');
-const { urlencoded } = require('body-parser');
-const MongoClient = require('mongodb').MongoClient
-const app = express();
-const { ObjectId } = require('mongodb');
+require('dotenv').config
+const express = require('express')
+const path = require('node:path')
+const bodyParser = require('body-parser')
 
-dotenv.config({path:'config.env'});
+// *code is currently working to this point without the commented code*
+
+// const { MongoClient, ServerApiVersion } = require('mongodb');
 
 
-app.use(bodyParser.urlencoded({ extended: true }))
+// const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-MongoClient.connect(process.env.MONGO_URI, { 
-    useUnifiedTopology: true}) 
-    .then(client =>{
-      console.log('Connected to Database')
-      const db = client.db('KingramQuebec')
-      const quotesCollection = db.collection('miscquotes')  
+console.log(process.env.MONGO_URI)
+
+const app = express()
+
+// Replace process.env.DB_URL with your actual connection string
+
+// const { MongoClient, ServerApiVersion } = require('mongodb');
+
+//const uri = "mongodb+srv://kingram:<password>@cluster0.mzkvvap.mongodb.net/?retryWrites=true&w=majority";
+
+// const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
+// client.connect(err => {
+  // const collection = client.db("kingramquebec").collection("miscquotes");
+  // perform actions on the collection object
+ // client.close();
+//});
+
+
 app.get('/', (req, res) => {
     db.collection('miscquotes').find().toArray()
       .then(quotes => {
-        res.render('index.ejs', { quotes: quotes })
+        res.render('index.ejs', { miscquotes: miscquotes })
       })
       .catch(/* ... */)
   })
@@ -41,11 +52,11 @@ app.get('/', (req, res) => {
 
   app.put('/miscquotes', (req, res) => {
     quotesCollection.findOneAndUpdate(
-      { name: 'BarrySan' },
+      { name: 'Obi Wan Koby' },
       {
         $set: {
           name: req.body.name,
-          quote: req.body.quote
+          miscquotes: req.body.miscquotes
         }
       },
       {
@@ -64,7 +75,7 @@ app.get('/', (req, res) => {
         if (result.deletedCount === 0) {
           return res.json('No quote to delete')
         }
-        res.json('Deleted Darth Vadar\'s quote')
+        res.json('Deleted Darth Barry\'s quote')
       })
       .catch(error => console.error(error))
   })
@@ -73,4 +84,4 @@ app.get('/', (req, res) => {
 app.listen(process.env.PORT || 3000,
   () => console.log(`server is running on port: ${process.env.PORT}` ));
 
-})
+

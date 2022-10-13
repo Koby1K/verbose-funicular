@@ -23,7 +23,7 @@
         <div>
           <h2>Darth Barry invades!</h2>
           <p>
-            Replace first BackRow Jedi's quote with a quote written by Darth Barry
+            Replace first MiddleRow Jedi's quote with a quote written by Darth Barry
           </p>
           <button id="update-button">Replace Jedi's quote</button>
         </div>
@@ -45,10 +45,10 @@
         <h2>Quotes</h2>
   
         <ul class="miscquotes">
-          <% for(var i = 0; i < quotes.length; i++) {%>
+          <% for(var i = 0; i < miscquotes.length; i++) {%>
           <li class="miscquote">
-            <span><%= quotes[i].name %></span>:
-            <span><%= quotes[i].quote %></span>
+            <span><%= miscquotes[i].name %></span>:
+            <span><%= miscquotes[i].quote %></span>
           </li>
           <% } %>
         </ul>
