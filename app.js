@@ -1,26 +1,11 @@
-require('dotenv').config
+require('dotenv').config()
 const express = require('express')
 const path = require('node:path')
 const bodyParser = require('body-parser')
+const { MongoClient, ServerApiVersion } = require('mongodb');
 
-// *code is currently working to this point without the commented code*
-
-// const { MongoClient, ServerApiVersion } = require('mongodb');
-
-
-// const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
-
-console.log(process.env.MONGO_URI)
-
+const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 const app = express()
-
-// Replace process.env.DB_URL with your actual connection string
-
-// const { MongoClient, ServerApiVersion } = require('mongodb');
-
-//const uri = "mongodb+srv://kingram:<password>@cluster0.mzkvvap.mongodb.net/?retryWrites=true&w=majority";
-
-// const client = new MongoClient(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -33,52 +18,68 @@ app.set('view engine', 'ejs');
  // client.close();
 //});
 
+app.get('/', async (req, res) => {
 
-app.get('/', (req, res) => {
-    db.collection('miscquotes').find().toArray()
-      .then(quotes => {
-        res.render('index.ejs', { miscquotes: miscquotes })
-      })
-      .catch(/* ... */)
-  })
+  client.connect();
+ 
+  // Make the appropriate DB calls
+  // databasesList = await client.db().admin().listDatabases();
 
-  app.post('/miscquotes', (req, res) => {
-    quotesCollection.insertOne(req.body)
-      .then(result => {
-        res.redirect('/')
-      })
-      .catch(error => console.error(error))
-  })
+  // console.log("Databases:");
+  // databasesList.databases.forEach(db => console.log(` - ${db.name}`));
 
-  app.put('/miscquotes', (req, res) => {
-    quotesCollection.findOneAndUpdate(
-      { name: 'Obi Wan Koby' },
-      {
-        $set: {
-          name: req.body.name,
-          miscquotes: req.body.miscquotes
-        }
-      },
-      {
-        upsert: true
-      }
-    )
-      .then(result => res.json('Success'))
-      .catch(error => console.error(error))
-  })
+  // kobyCol = await client.db('kingramquebec').listCollections();
+  
+  // kobyCol.forEach(coll => console.log(` - ${coll.name}`));
+  
+  // console.log(kobyCol.name); 
+  
 
-  app.delete('/miscquotes', (req, res) => {
-    quotesCollection.deleteOne(
-      { name: req.body.name }
-    )
-      .then(result => {
-        if (result.deletedCount === 0) {
-          return res.json('No quote to delete')
-        }
-        res.json('Deleted Darth Barry\'s quote')
-      })
-      .catch(error => console.error(error))
-  })
+  client.db('kingramquebec').collection('miscquotes').find().toArray()
+    .then(quotes => {
+      res.render('index.ejs', { miscquotes: quotes })
+    })
+    .catch(/* ... */)
+})
+
+
+// app.post('/miscquotes', (req, res) => {
+//   quotesCollection.insertOne(req.body)
+//     .then(result => {
+//       res.redirect('/')
+//     })
+//     .catch(error => console.error(error))
+// })
+
+// app.put('/miscquotes', (req, res) => {
+//   quotesCollection.findOneAndUpdate(
+//     { name: 'Obi Wan Koby' },
+//     {
+//       $set: {
+//         name: req.body.name,
+//         miscquotes: req.body.miscquotes
+//       }
+//     },
+//     {
+//       upsert: true
+//     }
+//   )
+//     .then(result => res.json('Success'))
+//     .catch(error => console.error(error))
+// })
+
+// app.delete('/miscquotes', (req, res) => {
+//   quotesCollection.deleteOne(
+//     { name: req.body.name }
+//   )
+//     .then(result => {
+//       if (result.deletedCount === 0) {
+//         return res.json('No quote to delete')
+//       }
+//       res.json('Deleted Darth Barry\'s quote')
+//     })
+//     .catch(error => console.error(error))
+// })
 
 
 app.listen(process.env.PORT || 3000,
