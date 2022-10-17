@@ -12,14 +12,14 @@
     <section data-position="add-quote">
         <h2>Add quote</h2>
   
-        <form action="/miscquotes" method="POST">
+        <form action="/quotes" method="POST">
           <input type="text" placeholder="name" name="name" />
           <input type="text" placeholder="quote" name="quote" />
           <button type="submit">Submit</button>
         </form>
       </section>
   
-      <section data-position="update-miscquote">
+      <section data-position="update-quote">
         <div>
           <h2>Darth Barry invades!</h2>
           <p>
@@ -29,7 +29,7 @@
         </div>
       </section>
   
-      <section data-position="delete-miscquote">
+      <section data-position="delete-quote">
         <div>
           <h2>Remove Darth Barry!</h2>
           <p>
@@ -41,19 +41,19 @@
         <div id="message"></div>
       </section>
   
-      <section data-position="miscquotes">
+      <section data-position="quotes">
         <h2>Quotes</h2>
   
-        <ul class="miscquotes">
-          <% for(var i = 0; i < miscquotes.length; i++) {%>
-          <li class="miscquote">
-            <span><%= miscquotes[i].name %></span>:
-            <span><%= miscquotes[i].quote %></span>
+        <ul class="quotes">
+          <% for(var i = 0; i < quotes.length; i++) {%>
+          <li class="quote">
+            <span><%= quotes[i].name %></span>:
+            <span><%= quotes[i].quote %></span>
           </li>
           <% } %>
         </ul>
       </section>
   
-      <script src="/main.js"></script>
+      <script src="main.js"></script>
     </body>
   </html>
